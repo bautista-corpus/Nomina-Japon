@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2020 by jordymeow (http://jsbin.com/gulukar/4/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html dir="ltr" lang="en-US">
+<head>
+
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="author" content="Jordy Meow" />
+	<meta name="keywords" content="japanese, tax, japan, calculation, calculator, income, declaration, resident, insurance, pension" />
+	<meta name="description" content="Using the Japan Tax Calculator, you can get an idea of the amount of taxes you might have to pay.">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+	<!-- Stylesheets
+	============================================= -->
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700|Roboto:300,400,500,700" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-2689305-23', 'auto');
+		ga('send', 'pageview');
+	</script>
+
+	<!-- Document Title
+	============================================= -->
+	<title>Calculador de nómina (Solo con impuestos)</title>
+
+	<style>
+
+	[v-cloak] {
+  	display: none;
+	}
+
+	body {
+		font-family: Roboto;
+	}
+
+	h1 {
+    padding: 30px 0px 30px 0px;
+    font-size: 28px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+		box-shadow: 0px 2px 16px #e8e8e8;
+	}
+
+	h1 span {
+		color: #1abc9c;
+	}
+
+	h2 {
+		font-family: 'Lato', sans-serif;
+		font-weight: 600;
+		font-size: 24px;
+	}
+
+	h2 span {
+		color: #1abc9c;
+	}
+
+	h3 {
+		font-family: 'Lato', sans-serif;
+		font-weight: 600;
+		font-size: 20px;
+	}
+
+	h3 span {
+		color: #1abc9c;
+	}
+
+	.intro {
+		font-family: 'Lato', sans-serif;
+		font-size: 15px;
+		margin: 40px;
+		color: #5a5a5a;
+	}
+
+	p {
+		font-family: 'Lato', sans-serif;
+		font-size: 15px;
+		color: #5a5a5a;
+	}
+
+	.section {
+		padding: 20px; 
+		color: white; 
+		text-align: center;
+	}
+
+	#section-salary {
+		background-color: #2581d0;
+	}
+
+	#section-net-income {
+		background: #1abc9c; 
+	}
+
+	#section-details {
+		padding: 20px;
+	}
+
+	.irs {
+		margin-bottom: 25px;
+	}
+
+	.irs-min, .irs-max, .irs-single {
+		font-size: 14px !important;
+		font-family: Roboto !important;
+	}
+
+	.irs-min, .irs-max {
+    background: #52a9f7 !important;
+    color: white !important;
+	}
+
+	.irs--flat .irs-bar, .irs--round .irs-bar {
+		background: #1abc9c !important;
+	}
+
+	.irs-single {
+		background-color: #1abc9c !important;
+	}
+
+	.irs-handle {
+		border-color: #1abc9c !important;
+	}
+
+	.irs-grid-text {
+		color: #66a9e4 !important;
+	}
+
+	label {
+		font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+	}
+
+	.progress {
+		margin-bottom: 5px;
+    height: 30px;
+    background-color: rgba(0, 0, 0, 0.15);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12);
+    border-radius: 0;
+	}
+
+	.progress span {
+		font-weight: 400;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-transform: uppercase;
+    font-size: 13px;
+    line-height: 30px;
+	}
+
+	input[type="checkbox"],
+	input[type="radio"] {
+		position: absolute;
+		opacity: 0;
+		z-index: -1;
+	}
+
+	input[type="checkbox"] + label::after {
+		content: "\2714";
+		color: #2c3e50;
+	}
+
+	input[type="checkbox"]:checked + label::before,
+	input[type="radio"]:checked + label::before {
+		content: " ";
+		background: #1abc9c;
+	}
+	input[type="checkbox"] + label::after,
+	input[type=radio] + label::after {
+		-webkit-transform: scale(0);
+		-ms-transform: scale(0);
+		-o-transform: scale(0);
+		transform: scale(0);
+	}
+	label {
+		position: relative;
+		display: inline-block;
+		padding: 0 0 0 2em;
+		cursor: pointer;
+	}
+	label::before,
+	label::after {
+		position: absolute;
+		top: 0;
+		left: 0;
+		display: block;
+		width: 1.5em;
+		height: 1.5em;
+	}
+	label::before {
+		content: " ";
+		border: 2px solid #ffffff;
+    border-radius: 0px;
+	}
+	/* Checkbox */
+	input[type="checkbox"] + label::after {
+		content: " ";
+		color: #2c3e50;
+	}
+	/* Radio */
+	input[type="radio"] + label::before {
+		border-radius: 50%;
+	}
+	input[type=radio] + label::after {
+		content: " ";
+		top: .25em;
+		left: .25em;
+		width: 1em;
+		height: 1em;
+		background: #fff;
+		border: .2em solid #2c3e50;
+		border-radius: 50%;
+	}
+	input[type="checkbox"]:checked + label::after,
+	input[type=radio]:checked + label::after {
+		-webkit-transform: scale(1);
+		-ms-transform: scale(1);
+		-o-transform: scale(1);
+		transform: scale(1);
+	}
+	.checkbox-label {
+		color: white;
+	}
+
+	#calculation-details-tabs {
+		margin-top: 20px;
+    background: #dbecff;
+    margin: 20px 0px 0px 0px;
+    padding: 10px;
+    border-radius: 0px;
+	}
+
+	#calculation-details-tabs .col-2 {
+		padding: 0px 10px 0px 0px;
+	}
+
+	#calculation-details-tabs .col-10 {
+		background: white;
+		border-radius: 0px;
+		padding: 10px 15px;
+	}
+
+	#detail-tabs-results {
+		width: 100%;
+	}
+
+	#detail-tabs-results td:nth-child(2) { 
+		text-align: right; 
+	}
+
+	#detail-tabs-results tr { 
+		border-bottom: 1px solid #e8e8e8; 
+	}
+
+	#disqus_thread {
+		margin-top: 30px;
+    background: #e8e8e8;
+    border-top: 5px #1abc9c solid;
+    padding: 20px;
+    margin-left: -20px;
+    margin-right: -20px;
+	}
+
+	@media only screen and (max-width: 600px) {
+		.nav-pills .nav-link {
+			padding: 2px;
+			font-size: 12px;
+			text-transform: uppercase;
+			margin-bottom: 10px;
+		}
+
+		#calculation-details-tabs {
+			margin: 20px -20px 0px -20px;
+			padding: 5px;
+		}
+	}
+
+	</style>
+
+</head>
+
+<body>
+
+	<!-- Document Wrapper
+	============================================= -->
+	<div class="clearfix">
+
+		<h1>Calculadora <span>de</span> Nómina</h1>
+
+		<!-- Content
+		============================================= -->
+
+		<div id="wrapper">
+
+		<p class="intro">Bienvenido a la Calculadora de impuestos de Japón. Este sitio web no es una referencia, está hecho para que usted tenga una idea rápida de la cantidad de impuestos que podría tener que pagar. A partir de 2019, el salario promedio en Japón es de ¥ 4,140,000.</p>
+
+		<section id="content">
+
+			<div id="section-salary" class="section">
+
+				<h2>¿Cuanto ganas en <b>un año?</b>
+					
+				</h2>
+
+				<form class="container clearfix divcenter center form">
+					<h3 class="divcenter font-body nobottommargin"></h3>
+					
+					<div class="white-section">
+						<input v-model="ui_salary" class="salary-range"></input>
+					</div>
+
+					<p style="margin-top: 20px; margin-bottom: 0px;">
+						<input id="employee" class="checkbox-style" v-model="is_employee" type="checkbox">
+						<label for="employee" class="checkbox-label" style="margin-right: 20px;">Empleado de la empresa</label>
+						<input id="firstyear" class="checkbox-style" v-model="is_firstyear" type="checkbox">
+						<label for="firstyear" class="checkbox-label" style="margin-right: 20px;">Primer año en japón</label>
+						<input v-if="!is_employee" id="bluereturn" class="checkbox-style" v-model="is_bluereturn" type="checkbox">
+						<label v-if="!is_employee" for="bluereturn" class="checkbox-label">Sistema Blue Return*</label>
+					</p>
+
+				</form>
+			</div>
+
+			<div id="section-net-income" class="section">
+				<div class="container clearfix divcenter center">
+
+					<h2 style="margin-bottom: 20px;">Su ingreso neto es:<br />{{income_net | to_yens}}</h2>
+
+					<div class="progress">
+						<div class="progress-bar progress-bar-animated" role="progressbar" 
+							v-bind:style="{ width: social_percent  * 2 + '%', 'background-color': '#0042bb;' }">
+							<span>
+								Seguro + Pensión: {{social_amount | to_yens}} ({{social_percent}}%)
+							</span>
+						</div>
+					</div>
+
+					<div class="progress">
+						<div class="progress-bar progress-bar-animated" role="progressbar" 
+							v-bind:style="{ width: income_tax_percent  * 2 + '%', 'background-color': '#7752e8' }">
+							<span>
+								Impuesto sobre la renta: {{income_tax_amount | to_yens}} ({{income_tax_percent}}%)
+							</span>
+						</div>
+					</div>
+
+					<div class="progress">
+						<div class="progress-bar progress-bar-animated" role="progressbar" 
+							v-bind:style="{ width: resident_tax_percent * 2 + '%', 'background-color': '#e6e83a' }">
+							<span>
+								Impuesto de residencia: {{resident_tax_amount | to_yens}} ({{resident_tax_percent}}%)
+							</span>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div id="section-details">
+
+
+				<p v-if="!is_employee">* El Blue Return System es un sistema ventajoso especial comúnmente utilizado por freelance en Japón. Para más información, <a href='https://www.nta.go.jp/english/taxes/individual/12010.htm' target='_blank'>revisa aqui</a>.</p>
+
+				<h2>Detalles <span>del cálculo</span></h2>
+
+				<div class="row" id="calculation-details-tabs">
+
+					<div class="col-3 col-md-2">
+
+						<ul class="nav flex-column nav-pills" id="pills-tab" role="tablist">
+							<li class="nav-item" role="tab" aria-controls="tab-taxable-income" aria-selected="false">
+								<a href="#tab-taxable-income" class="nav-link" data-toggle="tab">Ingreso imponible</a></li>
+							<li class="nav-item" role="tab" aria-controls="tab-insurance" aria-selected="false">
+								<a href="#tab-insurance" class="nav-link" data-toggle="tab">Seguro / Pensión</a></li>
+							<li class="nav-item" role="tab" aria-controls="tab-income-tax" aria-selected="false">
+								<a href="#tab-income-tax" class="nav-link" data-toggle="tab">Impuesto sobre la renta</a></li>
+							<li class="nav-item" role="tab" aria-controls="tab-resident-tax" aria-selected="false">
+								<a href="#tab-resident-tax" class="nav-link" data-toggle="tab">Impuesto de residencia</a></li>
+							<li class="nav-item" role="tab" tabindex="0" aria-controls="tab-intro" aria-selected="true">
+								<a href="#tab-intro" class="nav-link active" data-toggle="tab">lngresos netos</a></li>
+						</ul>
+
+					</div>
+
+					<div class="col-9 col-md-10">
+
+						<div class="tab-content" id="detail-tabs">
+
+							<div class="tab-pane fade show active" id="tab-intro" role="tabpanel">
+
+								<table id="detail-tabs-results">
+									<tr>
+										<td>Salario</td>
+										<td>{{salary | to_yens}}</td>
+									</tr>
+									<tr>
+										<td scope="col">Seguro / Pensión</td>
+										<td scope="col">- {{social_amount | to_yens}}</td>
+									</tr>
+									<tr>
+										<td>Impuesto sobre la renta</td>
+										<td>- {{income_tax_amount | to_yens}}</td>
+									</tr>
+									<tr>
+										<td>Impuesto de residencia</td>
+										<td>- {{resident_tax_amount | to_yens}}</td>
+									</tr>
+									<tr style="border-bottom: none; border-top: 2px solid gray;">
+										<td>Ingresos netos</td>
+										<td>{{income_net | to_yens}}</td>
+									</tr>
+								</table>
+
+							</div>
+
+							<div class="tab-pane fade" id="tab-taxable-income" role="tabpanel">
+
+								<div class="row">
+
+									<div class="col-md-6">
+										<p>
+											Primero, la <b>Deducción de ingresos laborales</b> debe calcularse (consultar la tabla). Elimínelo de su salario y obtendrá su <b>Ingreso imponible</b>.
+										</p>
+																				<i class="i-circled i-small icon-yen"></i>
+										<p style="font-size: 18px; font-weight: bold;">Su ingreso gravable es <b style="color: red;">{{taxable_income | to_yens}}</b>.</p>
+									</div>
+
+									<div class="col-md-6">
+
+										<table class="table">
+											<thead class="thead-dark">
+												<tr>
+													<th><strong>Salario anual</strong></th>
+													<th><strong>Calculo</strong></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>0 - 1,800,000</td>
+													<td>El mayor de (Salario anual * 40%) o 650,000</td>
+												</tr>
+												<tr>
+													<td>1,800,001 - 3,600,000</td>
+													<td>(Salario anual * 30%) + 180,000</td>
+												</tr>
+												<tr>
+													<td>3,600,001 - 6,600,000</td>
+													<td>(Salario anual * 20%) + 540,000</td>
+												</tr>
+												<tr>
+													<td>6,600,001 - 10,000,000</td>
+													<td>(Salario anual * 10%) + 1,200,000</td>
+												</tr>
+												<tr>
+													<td>10,000,001 - 15,000,000</td>
+													<td>(Salario anual * 5%) + 1,700,000</td>
+												</tr>
+												<tr>
+													<td>15,000,001+</td>
+													<td>¥2,450,000</td>
+												</tr>
+											</tbody>
+										</table>
+
+									</div>
+
+								</div>
+
+							</div>
+
+							<div class="tab-pane fade" id="tab-insurance" role="tabpanel">
+
+								<p>Si permanece más de un año en Japón, deberá elegir esos dos planes de seguro / pensión. Si trabaja para una empresa, lo más probable es que lo suscriban al Seguro Social que cubre tanto el seguro como la pensión. Si no lo hace, la oficina de su ciudad / barrio lo obligará a tomar el Seguro Nacional de Salud. Según mi experiencia, la Pensión Nacional no es obligatoria en este caso, pero también puede solicitarla..</p>
+
+								<div class="row">
+
+									<div class="col-md-6">
+										<div>
+											<h3 class="nobottommargin"><span>Seguro de </span>salud nacional</h3>
+										</div>
+										<p>
+											Esto es alrededor del 6% al 10% dependiendo de dónde vivas (por ejemplo, hay casi una diferencia del 4% entre Setagaya y Shinjuku). Si tiene dependientes (esposa e hijos), también aumenta esta cantidad. Si es su primer año en Japón, pagará un promedio de 50,000Y.
+										</p>
+										<div>
+											<h3 class="nobottommargin"><span>Pensión nacional</span></h3>
+										</div>
+										<p>
+											<i>Es simplemente 16,410Y / mes, entonces 196,920Y / año.</i>
+										</p>
+									</div>
+
+									<div class="col-md-6">
+										<div>
+											<h3 class="nobottommargin">Tu <span>Seguro</span> Social</h3>
+										</div>
+
+										<p>
+											El seguro es el 4,95% de su salario y la pensión es el 9,15% de su salario. <i>El monto real de este impuesto es en realidad el doble de esto, pero su empresa lo paga.</i>
+										</p>
+									</div>
+
+								</div>
+
+								<i class="i-circled i-small icon-yen"></i>
+								<p style="font-size: 18px; font-weight: bold;">Su seguro (y pensión) es <b style="color: red;">{{social_amount | to_yens}}.</b></p>
+
+
+							</div>
+
+							<div class="tab-pane fade" id="tab-income-tax" role="tabpanel">
+
+								<div class="row">
+
+									<div class="col-md-6">
+										<p>
+											El cálculo del impuesto sobre la renta se basa en su renta imponible menos la deducción personal estándar (que es igual a 380,000Y). Esta cantidad debe calcularse por segmento de salario utilizando esa tabla. Por ejemplo, su salario fue de 2,090,000, entonces tendría que pagar 5% en los primeros 1,950,000 y 10% en los últimos 140,000.
+										</p>
+										<p>
+											Debe agregar el Impuesto especial sobre la renta para la reconstrucción (復興 特別 税) a esta cantidad. Es el 2.1% del impuesto sobre la renta que se calculó anteriormente.
+										</p>
+										<i class="i-circled i-small icon-yen"></i>
+										<p style="font-size: 18px; font-weight: bold;">Su impuesto sobre la renta final es <b style="color: red;">{{income_tax_amount | to_yens}}</b>.</p>
+									</div>
+
+									<div class="col-md-6">
+										<table class="table">
+											<thead class="thead-dark">
+												<tr>
+													<th><strong>Salario anual</strong></th>
+													<th><strong>Porcentaje de impuesto</strong></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>0 - 1,950,000</td>
+													<td>5%</td>
+												</tr>
+												<tr>
+													<td>1,950,001 - 3,300,000</td>
+													<td>10%</td>
+												</tr>
+												<tr>
+													<td>3,300,001－6,950,000</td>
+													<td>20%</td>
+												</tr>
+												<tr>
+													<td>6,950,001－9,000,000</td>
+													<td>23%</td>
+												</tr>
+												<tr>
+													<td>9,000,001－18,000,000</td>
+													<td>33%</td>
+												</tr>
+												<tr>
+													<td>40,000,001 +</td>
+													<td>40%</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+								</div>
+
+							</div>
+
+							<div class="tab-pane fade" id="tab-resident-tax" role="tabpanel">
+
+								<p>
+									En realidad, solo debe pagar el impuesto de residencia <u> si era residente de Japón el primero de enero de ese año </u>. El cálculo básico se basa en su <b> Salario anual </b>, menos la <b> Deducción de ingresos por empleo </b>, menos cualquier deducción que pueda reclamar (eche un vistazo al <a href = "http://www.tax.metro.tokyo.jp/book/guidebookgaigo/guidebook2014e.pdf#page=14"> Guía de impuestos metropolitanos </a> para aquellos). Tome <b> 10% de esta cantidad </b>.
+								</p>
+
+								<i class="i-circled i-small icon-yen"></i>
+								<p style="font-size: 18px; font-weight: bold;">Tu impuesto de residencia es <b style="color: red;">{{resident_tax_amount | to_yens}}.</b></p>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+			
+		</section>
+
+		</div>
+
+		<section id="footer" style="padding: 0px 20px 0px 20px;">
+
+			<h2>Sobre <span>el cálculo</span></h2>
+			<p>El Editor de Impuestos de Japón es mantenido por <a href='https://jordymeow.com' target='_blank'> Jordy Meow </a>. Se inspiró en las explicaciones y cálculos de <a href='http://teflsearch.com/knowledgebase/japan/tax-and-social-security'> TeflSearch </a> (solo inspirado, porque el sitio web de TeflSearch está desactualizado). Versión revisada en español por Jesús Bautista</p>
+
+			
+
+			
+			<script>
+			var disqus_config = function () {
+					this.page.url = "https://japantaxcalculator.com/";  // Replace PAGE_URL with your page's canonical URL variable
+					this.page.identifier = "japantax"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+			};
+			(function() { // DON'T EDIT BELOW THIS LINE
+					var d = document, s = d.createElement('script');
+					s.src = 'https://japantax.disqus.com/embed.js';
+					s.setAttribute('data-timestamp', +new Date());
+					(d.head || d.body).appendChild(s);
+			})();
+			</script>
+
+		</section>
+
+	</div><!-- #wrapper end -->
+
+	<!-- External JavaScripts
+	============================================= -->
+	<script id="dsq-count-scr" src="https://japantax.disqus.com/count.js" async></script>
+	<script type="text/javascript" src="https://unpkg.com/vue@2.0.1/dist/vue.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+	<script type="text/javascript" src="japantax.js"></script>
+
+	<!-- Range Slider Plugin -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js" integrity="sha256-eXdxIh/sjKTNi5WyC8cKHekwPywORiomyiMFyZsowWw=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/css/ion.rangeSlider.min.css" integrity="sha256-nv5vSBJAzPy+07+FvRvhV2UPpH87H/UnWMrA6nbEg7U=" crossorigin="anonymous" />
+
+	<!-- Footer Scripts
+	============================================= -->
+	<script type="text/javascript">
+
+		function salaryUpdate(amount) {
+			app.ui_salary = amount.from;
+		}
+
+		jQuery(document).ready(function () {
+			var slider = jQuery(".salary-range").ionRangeSlider({
+				grid: true,
+				min: 100000,
+				max: 40000000,
+				from: 4140000,
+				step: 100000,
+				skin: "round",
+				hide_min_max: true,
+				hide_from_to: false,
+				//grid_snap: true,
+				prefix: '‎¥ ',
+				prettify_separator: ',',
+				prettify_enabled: true,
+				onChange: salaryUpdate
+			});
+		});
+
+	</script>
+
+	<!-- <script type="text/javascript" src="https://downloads.mailchimp.com/js/signup-forms/popup/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script><script type="text/javascript">require(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us4.list-manage.com","uuid":"d258554b6c7b3a3b06d0c88e0","lid":"69c11b5fd7"}) })</script> -->
+
+	<!-- <script type="text/javascript" src="https://downloads.mailchimp.com/js/signup-forms/popup/unique-methods/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script><script type="text/javascript">window.dojoRequire(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us4.list-manage.com","uuid":"d258554b6c7b3a3b06d0c88e0","lid":"69c11b5fd7","uniqueMethods":true}) })</script> -->
+
+	<!-- This site is converting visitors into subscribers and customers with OptinMonster - https://optinmonster.com -->
+	<script type="text/javascript" src="https://a.opmnstr.com/app/js/api.min.js" data-account="62856" data-user="55858" async></script>
+	<!-- / https://optinmonster.com -->
+
+<script id="jsbin-javascript">
+// $(document).ready(function(){
+//   $("#net_income").mask("9 999 999 999", { placeholder: " " } );
+// });
+
+var app = new Vue({
+  el: '#wrapper',
+  data: {
+
+    // USER ENTRIES
+    ui_salary: 4140000,
+    salary: 0,
+    previous_salary: 0,
+    is_employee: false,
+    is_firstyear: false,
+    is_bluereturn: false,
+
+    // CALCULATIONS
+    income_deduction: 0,
+    taxable_income: 0,
+    income_tax: 1,
+    income_tax_amount: 0,
+    resident_tax_amount: 0,
+    social_amount: 0,
+    income_net: 0,
+
+    // PERCENT OF SALARY
+    income_net_percent: 0,
+    income_tax_percent: 0,
+    resident_tax_percent: 0,
+    social_percent: 0,
+  },
+
+  mounted: function() {
+    this.calculate_all();
+  },
+
+  watch: {
+    is_employee: function() {
+      this.calculate_all();
+    },
+    is_firstyear: function() {
+      this.calculate_all();
+    },
+    is_bluereturn: function() {
+      this.calculate_all();
+    },
+    ui_salary: function(newSalary) {
+      this.calculate_all();
+    }
+  },
+  methods: {
+
+    calculate_all: function() {
+      this.salary = parseInt(this.ui_salary);
+      if (this.is_firstyear) {
+        this.previous_salary = 0;
+      }
+      else {
+        this.previous_salary = this.salary;
+      }
+      this.calculate_social_amount();
+      this.calculate_taxable_income();
+      this.calculate_income_tax_amount();
+      this.calculate_resident_tax_amount();
+      this.calculate_income_net();
+    },
+
+    calculate_taxable_income: function() {
+      var salary = parseInt(this.salary);
+      if (this.is_employee) {
+        if (salary <= 1800000)
+          this.income_deduction = Math.max(salary * 0.4, 650000);
+        else if (salary <= 3600000)
+          this.income_deduction = salary * 0.3 + 180000;
+        else if (salary <= 6600000)
+          this.income_deduction = salary * 0.2 + 540000;
+        else if (salary <= 10000000)
+          this.income_deduction = salary * 0.1 + 1200000;
+        else
+          this.income_deduction = 2200000;
+        this.taxable_income = salary - this.income_deduction;
+        if (this.taxable_income < 0)
+          this.taxable_income = 0;
+      }
+      else {
+        this.taxable_income = this.is_bluereturn ? salary - 650000 : salary;
+      }
+    },
+
+    calculate_social_amount: function() {
+      var insurance_amount;
+      var pension_amount;
+
+      if (this.is_employee) {
+        // Social Insurance Scheme
+        insurance_amount = this.salary * 0.0495; // Insurance
+        pension_amount = this.salary * 0.0915; // Pension
+        this.social_amount = pension_amount + insurance_amount;
+      }
+      else {
+        // Pension + National Health Insurance
+
+        // Old calculation by TeflSearch (doesn't seem to be the right one anymore)
+        // var base = Math.max(this.previous_salary - 330000, 0);
+        // insurance_amount = pension_amount + (base * 0.047 + 24400);
+        // this.insurance_percent = Math.round(insurance_amount / this.salary * 100);
+
+        insurance_amount = this.is_firstyear ? 50000 : (this.previous_salary * 0.1);
+        pension_amount = 16410 * 12;
+        this.social_amount = pension_amount + insurance_amount;
+      }
+      this.social_percent = Math.round(this.social_amount / this.salary * 100);
+    },
+
+    calculate_income_tax_amount: function() {
+      var taxable_income = this.taxable_income - 380000 - this.social_amount;
+      this.income_tax_amount = 0;
+
+      if (taxable_income >= 40000000) {
+        this.income_tax_amount = taxable_income * 0.45 - 4796000;
+      }
+      else if (taxable_income >= 18000000) {
+        this.income_tax_amount = taxable_income * 0.40 - 2796000;
+      }
+      else if (taxable_income >= 9000000) {
+        this.income_tax_amount = taxable_income * 0.33 - 1536000;
+      }
+      else if (taxable_income >= 6950000) {
+        this.income_tax_amount = taxable_income * 0.23 - 636000;
+      }
+      else if (taxable_income >= 3300000) {
+        this.income_tax_amount = taxable_income * 0.20 - 427500;
+      }
+      else if (taxable_income >= 1950000) {
+        this.income_tax_amount = taxable_income * 0.10 - 97500;
+      }
+      else if (taxable_income >= 1000) {
+        this.income_tax_amount = taxable_income * 0.05;
+      }
+
+      // With the Japan’s Special Tax for Reconstruction
+      this.income_tax_amount = Math.round((this.income_tax_amount * 1.021) / 100) * 100;
+      this.income_tax_percent = Math.round(this.income_tax_amount / this.salary * 100);
+    },
+
+    calculate_income_net: function() {
+      this.income_net = this.salary - this.income_tax_amount - this.social_amount - this.resident_tax_amount;
+      this.income_net_percent = Math.round(this.income_net / this.salary * 100);
+      //console.debug("Income Net: ", this.income_net);
+    },
+
+    calculate_resident_tax_amount: function() {
+
+      if (this.is_firstyear) {
+        this.resident_tax_amount = 0;
+        this.resident_tax_percent = 0;
+        return;
+      }
+
+      var taxable_income = Math.floor((this.taxable_income - 380000 - this.social_amount) / 1000) * 1000;
+      if (taxable_income < 0)
+        taxable_income = 0;
+      this.resident_tax_amount = taxable_income * 0.1;
+      this.resident_tax_percent = Math.round(this.resident_tax_amount / this.salary * 100);
+      //console.debug("Residence Tax Amount: ", this.resident_tax_amount);
+    },
+
+  },
+
+  filters: {
+
+    to_yens: function(value) {
+      if (!value)
+        return '¥0';
+      var val = Math.round(value);
+      return "¥" + val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+  }
+})
+
+</script>
+</body>
+</html>
