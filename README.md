@@ -1,4 +1,4 @@
-# Nomina en Japón
+# Nómina en Japón
 
 Una página sencilla sobre como funciona el cálculo y pago de nómina en Japón.
 
